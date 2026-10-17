@@ -8,22 +8,23 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'grade' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('grade');
-  });
-
-  it('should render title', () => {
+  it('renders one vertical bar per mark', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, grade');
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelectorAll('rect.bar-v').length).toBe(16);
+    expect(el.querySelectorAll('tbody tr').length).toBe(16);
+  });
+
+  it('recalculates when the slider moves', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const slider = el.querySelector<HTMLInputElement>('input[type=range]')!;
+    slider.value = '200';
+    slider.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    // (2000 - 200) / 220 = 8.18 -> 8 barras
+    expect(el.querySelectorAll('rect.bar-v').length).toBe(8);
   });
 });

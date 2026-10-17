@@ -1,1 +1,94 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --border: #dde1e7;
+  --text: #1c2330;
+  --muted: #6b7484;
+  --accent: #2f6fe4;
+  --accent-strong: #d9480f;
+  --accent-soft: #e8effc;
+  --warn-bg: #fff4e5;
+  --warn-text: #8a4b00;
+  --bar-h: #5c6675;
+  --bar-v: #8d97a6;
+  --bar-stroke: #2b313b;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151a;
+    --surface: #1b1f26;
+    --border: #2c323c;
+    --text: #e6e9ee;
+    --muted: #8e97a5;
+    --accent: #6a9cf5;
+    --accent-strong: #ff8a4c;
+    --accent-soft: #1f2a3d;
+    --warn-bg: #3a2a12;
+    --warn-text: #ffc978;
+    --bar-h: #9aa3b0;
+    --bar-v: #6c7684;
+    --bar-stroke: #c9ced6;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.45;
+}
+
+.print-only {
+  display: none !important;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
+@media print {
+  // Impressão sempre no tema claro, independente do tema do sistema.
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --border: #b9c0ca;
+    --text: #000000;
+    --muted: #4a5260;
+    --accent: #1d4fb8;
+    --accent-strong: #c2410c;
+    --accent-soft: #eef2fa;
+    --warn-bg: #fff4e5;
+    --warn-text: #8a4b00;
+    --bar-h: #5c6675;
+    --bar-v: #9aa3b0;
+    --bar-stroke: #1c2330;
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    font-size: 11pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .screen-only {
+    display: none !important;
+  }
+}

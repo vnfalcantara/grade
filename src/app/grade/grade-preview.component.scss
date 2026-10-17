@@ -1,0 +1,76 @@
+:host {
+  display: block;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+}
+
+.post {
+  fill: url(#hatch);
+  stroke: var(--muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hatch-line {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+
+.bar {
+  stroke: var(--bar-stroke);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.bar-h {
+  fill: var(--bar-h);
+}
+
+.bar-v {
+  fill: var(--bar-v);
+}
+
+.mark {
+  stroke: var(--accent-strong);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.dim,
+.tick {
+  stroke: var(--muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.dim.dim-end {
+  stroke: var(--accent-strong);
+  stroke-width: 2;
+}
+
+.arrow {
+  fill: var(--muted);
+}
+
+.dim-text {
+  fill: var(--text);
+  text-anchor: middle;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+
+  &.dim-end {
+    fill: var(--accent-strong);
+    font-weight: 600;
+  }
+}
+
+@media print {
+  svg {
+    max-height: 90mm;
+  }
+}

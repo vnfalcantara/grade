@@ -1,0 +1,51 @@
+@let g = geo();
+<svg
+  [attr.viewBox]="g.viewBox"
+  preserveAspectRatio="xMidYMid meet"
+  role="img"
+  [attr.aria-label]="'Desenho do módulo com ' + result().barCount + ' barras verticais'"
+>
+  <defs>
+    <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="12" class="hatch-line" />
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" [attr.markerWidth]="g.fs * 0.6" [attr.markerHeight]="g.fs * 0.6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrow" />
+    </marker>
+  </defs>
+
+  <!-- Traves (fora do módulo) -->
+  <rect class="post" [attr.x]="-g.post" y="0" [attr.width]="g.post" [attr.height]="g.H" />
+  <rect class="post" [attr.x]="g.L" y="0" [attr.width]="g.post" [attr.height]="g.H" />
+
+  <!-- Barras horizontais -->
+  <rect class="bar bar-h" x="0" y="0" [attr.width]="g.L" [attr.height]="g.hs" />
+  <rect class="bar bar-h" x="0" [attr.y]="g.H - g.hs" [attr.width]="g.L" [attr.height]="g.hs" />
+
+  <!-- Barras verticais e marcações de centro na barra superior -->
+  @for (m of result().marks; track m.index) {
+    <rect class="bar bar-v" [attr.x]="m.start" [attr.y]="g.verticalTop" [attr.width]="m.end - m.start" [attr.height]="g.verticalHeight" />
+    <line class="mark" [attr.x1]="m.center" [attr.x2]="m.center" [attr.y1]="-g.fs * 0.5" [attr.y2]="g.hs * 0.6" />
+  }
+
+  <!-- Cota total -->
+  <line class="dim" x1="0" [attr.x2]="g.L" [attr.y1]="-g.fs * 1.6" [attr.y2]="-g.fs * 1.6" marker-start="url(#arrow)" marker-end="url(#arrow)" />
+  <text class="dim-text" [attr.x]="g.L / 2" [attr.y]="-g.fs * 2" [attr.font-size]="g.fs">{{ g.totalLabel }}</text>
+
+  <!-- Cotas dos vãos -->
+  @for (s of g.spaces; track $index) {
+    <line class="tick" [attr.x1]="s.x0" [attr.x2]="s.x0" [attr.y1]="g.H" [attr.y2]="g.dimY + g.fs * 0.4" />
+    <line class="tick" [attr.x1]="s.x1" [attr.x2]="s.x1" [attr.y1]="g.H" [attr.y2]="g.dimY + g.fs * 0.4" />
+    <line class="dim" [class.dim-end]="s.isEnd" [attr.x1]="s.x0" [attr.x2]="s.x1" [attr.y1]="g.dimY" [attr.y2]="g.dimY" />
+    @if (s.showLabel) {
+      <text class="dim-text" [class.dim-end]="s.isEnd" [attr.x]="(s.x0 + s.x1) / 2" [attr.y]="g.dimY + g.fs * 1.5" [attr.font-size]="g.fs * 0.85">
+        {{ s.label }}
+      </text>
+    }
+  }
+  @if (!g.labelAll && result().barCount > 1) {
+    <text class="dim-text" [attr.x]="g.L / 2" [attr.y]="g.summaryY" [attr.font-size]="g.fs * 0.9">
+      vão entre barras: {{ g.spaces[1].label }} mm
+    </text>
+  }
+</svg>
